@@ -11,13 +11,13 @@ void gotEvent(struct js_event e) {
 		<< "\tValue: " << (int)e.value << endl;
 }
 
-void followJoystick() {
-	Joystick inp = Joystick("/dev/input/js0", gotEvent);
-	inp.getInput();
+void followJoystick(Joystick* inp) {
+	inp -> getInput();
 }
 
 int main() {
-	thread t1(followJoystick);
+	Joystick *inp = new Joystick("/dev/input/js0", gotEvent);
+	thread t1(followJoystick, inp);
 	t1.join();
 	return 0;
 }
