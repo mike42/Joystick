@@ -19,8 +19,8 @@ public:
 	int axis(int index);
 
 private:
-	bool _busy = false;
-	bool _connected = false;
+	bool _busy;
+	bool _connected;
 	int _number_of_buttons;
 	int _number_of_axes;
 	__s16 *_axis;

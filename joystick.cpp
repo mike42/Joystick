@@ -5,6 +5,9 @@ Joystick :: ~Joystick() {
 }
 
 Joystick :: Joystick(const char *js_device, void (*setCallback)(struct js_event e)) {
+	_busy = false;
+	_connected = false;
+
 	fd = open (js_device, O_RDONLY);
 	if(fd < 0) {
 		std::cerr << "Could not open joystick device: " << js_device << std::endl;
