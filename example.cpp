@@ -4,11 +4,12 @@
 
 using namespace std;
 
-void gotEvent(struct js_event e) {
+bool gotEvent(struct js_event e) {
 	cout << "Event at time: " << (int)e.time << endl
 		<< "\tType: " << (int)e.type << endl
 		<< "\tAxis/Btn Number: " <<  (int)e.number << endl
 		<< "\tValue: " << (int)e.value << endl;
+	return true;
 }
 
 void followJoystick(Joystick* inp) {
