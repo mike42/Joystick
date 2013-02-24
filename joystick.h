@@ -15,8 +15,8 @@ public:
 	bool connected() { return _connected; };
 	int number_of_buttons() { return _number_of_buttons; };
 	int number_of_axes() { return _number_of_axes; };
-	int button(int index);
-	int axis(int index);
+	__s16 button(int index);
+	__s16 axis(int index);
 
 private:
 	bool _busy;

@@ -91,3 +91,18 @@ void Joystick :: getInput() {
 	_connected = false;
 	_busy = false;
 }
+
+
+__s16 Joystick :: button(int index) {
+	if(index >= 0 && index < _number_of_buttons) {
+		return _button[index];
+	}
+	return 0;
+}
+
+__s16 Joystick :: axis (int index) {
+	if(index >= 0 && index < _number_of_axes) {
+		return _axis[index];
+	}
+	return 0;
+}
