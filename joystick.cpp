@@ -44,7 +44,7 @@ bool Joystick :: wait_for_next_event(struct js_event *e) {
 }
 
 void Joystick :: getInput() {
-	bool stopped;
+	bool stopped = false;
 	/* A flag to stop this being run concurrently,
 		and to make it easy to spot an unplugged joystick */
 	if(_busy || !_connected) {
@@ -53,7 +53,7 @@ void Joystick :: getInput() {
 	_busy = true;
 
 	struct js_event e;
-	while(wait_for_next_event(&e) && !stopped) {
+	while(!stopped && wait_for_next_event(&e)) {
 		switch(e.type) {
 			/* Button events and button init messages */
 			case JS_EVENT_BUTTON:
