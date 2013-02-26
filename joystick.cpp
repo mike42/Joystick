@@ -4,7 +4,7 @@ Joystick :: ~Joystick() {
 	close(fd);
 }
 
-Joystick :: Joystick(const char *js_device, bool (*setCallback)(struct js_event e)) {
+Joystick :: Joystick(const char *js_device, void (*setCallback)(struct js_event e, bool *finalEvent)) {
 	_busy = false;
 	_connected = false;
 
@@ -44,7 +44,7 @@ bool Joystick :: wait_for_next_event(struct js_event *e) {
 }
 
 void Joystick :: getInput() {
-	bool stopped = false;
+	bool finalEvent = false;
 	/* A flag to stop this being run concurrently,
 		and to make it easy to spot an unplugged joystick */
 	if(_busy || !_connected) {
@@ -53,7 +53,7 @@ void Joystick :: getInput() {
 	_busy = true;
 
 	struct js_event e;
-	while(!stopped && wait_for_next_event(&e)) {
+	while(!finalEvent && wait_for_next_event(&e)) {
 		switch(e.type) {
 			/* Button events and button init messages */
 			case JS_EVENT_BUTTON:
@@ -65,7 +65,7 @@ void Joystick :: getInput() {
 
 				if(e.type == JS_EVENT_BUTTON) {
 					/* Run callback for non-init events */
-					callback(e);
+					callback(e, &finalEvent);
 				}
 				break;
 
@@ -79,9 +79,7 @@ void Joystick :: getInput() {
 
 				if(e.type == JS_EVENT_AXIS) {
 					/* Run callback for non-init events */
-					if(!callback(e)) {
-						stopped = true;
-					}
+					callback(e, &finalEvent);
 				}
 				break;
 			default:

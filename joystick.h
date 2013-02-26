@@ -6,7 +6,7 @@
 
 class Joystick {
 public:
-	Joystick(const char *js_device, bool (*setCallback)(struct js_event e));
+	Joystick(const char *js_device, void (*setCallback)(struct js_event e, bool *finalEvent));
 	~Joystick();
 	void getInput();
 
@@ -26,7 +26,7 @@ private:
 	__s16 *_axis;
 	__s16 *_button;
 
-	bool (*callback)(struct js_event e);
+	void (*callback)(struct js_event e, bool *finalEvent);
 	int fd;
 	bool wait_for_next_event(struct js_event *e);
 };
